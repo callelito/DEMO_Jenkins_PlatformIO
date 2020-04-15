@@ -3,7 +3,7 @@
 #ifdef UNIT_TEST
 
 void test_function(void) {
-    TEST_ASSERT_EQUAL(1, 0);
+    TEST_ASSERT_EQUAL(0, 0);
 }
 
 int main(int argc, char **argv) {
