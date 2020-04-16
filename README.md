@@ -6,6 +6,7 @@ This repo is part of a Demo that will be done in the course DD2458. The purpose 
 2) Internaly 
 3) Unit tests on the embedded device 
 
+Updated readme 
 
 
 
