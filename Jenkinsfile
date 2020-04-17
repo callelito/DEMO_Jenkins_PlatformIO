@@ -1,8 +1,5 @@
 pipeline {
   agent any
-  environment {
-        BUILD_TOKEN = credentials('BUILD_TOKEN')
-    }
   stages {
     stage('Build') {
       steps {
@@ -11,5 +8,20 @@ pio account logout'''
       }
     }
 
+    stage('Test') {
+      environment {
+        TEST_TOKEN = ''
+      }
+      steps {
+        sh '''PLATFORMIO_AUTH_TOKEN=${TEST_TOKEN} pio remote test -e native -r
+pio account logout'''
+        sh '''PLATFORMIO_AUTH_TOKEN=${TEST_TOKEN} pio remote test -r
+pio account logout'''
+      }
+    }
+
+  }
+  environment {
+    BUILD_TOKEN = credentials('BUILD_TOKEN')
   }
 }
