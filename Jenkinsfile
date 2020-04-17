@@ -1,5 +1,8 @@
 pipeline {
   agent any
+  environment {
+        BUILD_TOKEN = credentials('BUILD_TOKEN')
+    }
   stages {
     stage('Build') {
       steps {
