@@ -1,7 +1,7 @@
 pipeline {
   agent any
   environment {
-    BUILD_TOKEN = credentials('BUILD_TOKEN')
+    BUILD_TOKEN = credentials('TEST_TOKEN')
     TEST_TOKEN = credentials('TEST_TOKEN')
   }
   stages {
