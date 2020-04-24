@@ -29,6 +29,13 @@ python test_scripts/check.py'''
       }
     }
 
+    stage('Deploy') {
+      steps {
+        sh '''/home/jenkins/.local/bin/pio run -e megaatmega2560 -t upload --upload-port /dev/ttyUSB1
+'''
+      }
+    }
+
   }
   environment {
     BUILD_TOKEN = credentials('BUILD_TOKEN')
