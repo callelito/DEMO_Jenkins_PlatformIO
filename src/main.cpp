@@ -21,7 +21,7 @@ void setup() {
 void writeRGY(float red, float green, float yellow) {
   int linear_bright[] = {
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 13, 16, 18, 23, 26, 
-    32, 36, 45, 50, 64, 74, 90, 105, 128, 145, 181, 205, 255
+    32, 36, 45, 50, 64, 74, 90, 105, 128, 147, 181, 205, 255
     };
   int ri = min(28*abs(red), 28);
   int gi = min(28*abs(green), 28);
