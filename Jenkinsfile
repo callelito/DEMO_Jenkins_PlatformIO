@@ -23,7 +23,7 @@ PLATFORMIO_AUTH_TOKEN=${TEST_TOKEN} pio remote test -r'''
         label 'PlatformIO-slave'
       }
       steps {
-        sh '''pio run -e uno -t upload --upload-port /dev/ttyUSB0
+        sh '''/home/jenkins/.local/bin/pio run -e uno -t upload --upload-port /dev/ttyUSB0
 sleep 5
 python test_scripts/check.py'''
       }
