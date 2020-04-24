@@ -30,6 +30,9 @@ python test_scripts/check.py'''
     }
 
     stage('Deploy') {
+      agent {
+        label 'PlatformIO-slave'
+      }
       steps {
         sh '''/home/jenkins/.local/bin/pio run -e megaatmega2560 -t upload --upload-port /dev/ttyUSB1
 '''
