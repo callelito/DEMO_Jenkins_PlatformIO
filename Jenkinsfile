@@ -12,6 +12,6 @@ PLATFORMIO_AUTH_TOKEN=${BUILD_TOKEN} pio remote run -r
   }
   environment {
     BUILD_TOKEN = credentials('BUILD_TOKEN')
-    TEST_TOKEN = crendentials('TEST_TOKEN')
+    TEST_TOKEN = credentials('TEST_TOKEN')
   }
 }
