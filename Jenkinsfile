@@ -33,6 +33,9 @@ python test_scripts/check.py'''
       agent {
         label 'PlatformIO-slave'
       }
+      when {
+            branch "master"
+        }
       steps {
         sh '''/home/jenkins/.local/bin/pio run -e megaatmega2560 -t upload --upload-port /dev/ttyUSB1
 '''
