@@ -5,6 +5,6 @@ services:
     volumes:
     - PlatformIO-agent-data:/var/data
     environment: 
-    - TEST_TOKEN=470fd759c613a0c082aaec612acc2a0c0821ade6
+    - TEST_TOKEN="test token goes here"
 volumes:
     PlatformIO-agent-data: {}
