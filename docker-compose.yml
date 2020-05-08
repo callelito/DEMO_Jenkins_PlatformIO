@@ -1,0 +1,10 @@
+version: '2.0'
+services:
+  agent:
+    build: .
+    volumes:
+    - PlatformIO-agent-data:/var/data
+    environment: 
+    - TEST_TOKEN=470fd759c613a0c082aaec612acc2a0c0821ade6
+volumes:
+    PlatformIO-agent-data: {}
