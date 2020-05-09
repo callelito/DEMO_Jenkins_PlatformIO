@@ -39,7 +39,7 @@
 * [What is next](#what-is-next)
 * [License](#license)
 * [Contact](#contact)
-* [Acknowledgements](#acknowledgements)
+* [Acknowledgments](#acknowledgments)
 
 ## About The Demo
 
@@ -49,7 +49,7 @@ Specifically this demo shows how to setup a **Jenkins** automation server, and t
 
 ### Motivation
 
-When developing for embedded systems, tests that relate to the actual hardware are often done manually on a dedicated test rig. This is time consuming and often creates a bottleneck in the workflow since only small teams can work on the test rig, one at a time. Automation of physical tests could hopefully reduce the time spent in the lab and speedup verification of the code under test.
+When developing for embedded systems, tests that relate to the actual hardware are often done manually on a dedicated test rig. This is time-consuming and often creates a bottleneck in the workflow since only small teams can work on the test rig, one at a time. Automation of physical tests could hopefully reduce the time spent in the lab and speedup verification of the code under test.
 
 Also this greate article: [Continuous Delivery, Embedded Systems, and Simulation](https://blogs.windriver.com/wind_river_blog/2018/03/continuous-delivery-embedded-systems-and-simulation/) by Jakob Engblom
 >Mike Long’s most important message is really that software development methods and tools matter, and that being “embedded” is no excuse not to work in a modern and efficient way.  
@@ -63,7 +63,7 @@ Also this greate article: [Continuous Delivery, Embedded Systems, and Simulation
     
     [Docs »](https://www.jenkins.io/doc/)
 * [Blueocean Plugin](https://www.jenkins.io/projects/blueocean/)
-  * A tool for building and visulizing **Jenkins** pipelines.
+  * A tool for building and visualizing **Jenkins** pipelines.
 * [PlatformIO](https://platformio.org/)
   * >PlatformIO is a cross-platform, cross-architecture, multiple framework, professional tool for embedded systems engineers and for software developers who write applications for embedded products.
     
@@ -79,10 +79,10 @@ In this section we will go over how this demo was made. It will not explain ever
 First we will provide resources so that you can setup all the required servers. In this demo pipeline we require four servers. All these servers could be run on the same computer using some container software like Docker. 
 
 The server setup in the demo video is as follows:
-* Jenkins server ran on a Raspeberry Pi running Raspbian
+* Jenkins server ran on a Raspberry Pi running Raspbian
 * Build server ran in a Docker container on a Ubuntu laptop
 * Test server ran on a MacOS laptop
-* Hardware test server / Jenkins SSH slave agent ran on a (different) Raspeberry Pi running Raspbian
+* Hardware test server / Jenkins SSH slave agent ran on a (different) Raspberry Pi running Raspbian
 
  #### Jenkins Server
 
@@ -93,13 +93,13 @@ There are many ways to setup a **Jenkins** server. It can run on most devices th
 One caveat is that this server must also run **PlatformIO**. **PlatformIO** is python based and **PlatformIO Remote**  which is the only thing this server will use does not require the ability to compile and run a microcontroller compile suite, e.g. `avrdude`, `avr-gcc` etc. 
 Note for example if you run **Jenkins** using their lts docker image it will run on alpine linux. At the current time **PlatformIO** cannot download the correct toolchain for atleast the Atmel/Microship chipsets. 
 
-Next you will add the blueocean plugin. There is a compleate docker image availiable with Jenkins+Blueocean already setup. Just be aware of the caveat above.
+Next you will add the blueocean plugin. There is a complete docker image available with Jenkins+Blueocean already setup. Just be aware of the caveat above.
 * [Blue Ocean Setup](https://www.jenkins.io/doc/book/blueocean/getting-started/)
 * [Creating a Pipeline](https://www.jenkins.io/doc/book/blueocean/creating-pipelines/)
 
 When creating a pipeline you will directly connect it to your GitHub repo.
 
-To be able to recive webhooks from GitHub you will have to add `http://ipAddress:port/github-webhook/` to your GitHub repo. Where `ipAddress:port` is the address where your **Jenkins** server is accessable from. A simple way to make a `localhost` port available to the internet is using a software like [ngrok](https://ngrok.com/)
+To be able to receive webhooks from GitHub you will have to add `http://ipAddress:port/github-webhook/` to your GitHub repo. Where `ipAddress:port` is the address where your **Jenkins** server is accessable from. A simple way to make a `localhost` port available to the internet is using a software like [ngrok](https://ngrok.com/)
 * [Add GitHub Webhook to Jenkins Pipeline using ngrok](https://dzone.com/articles/adding-a-github-webhook-in-your-jenkins-pipeline)
 
 Now to setup **PlatformIO**. The CLI supports most common OSs. However it does not guarantee that a specific OS supports some specific toolchain. However on this server we are only using **PlatformIO Remote** or `pio remote`.
@@ -132,7 +132,7 @@ For the demo video we used the following [Dockerfile](Dockerfile) and [docker-co
 
 ![PlatformIO Remote Technology Architecture](images/pio-remote-architecture.png)
 
-The image above is an overview of how **PlatformIO Remote** works. But the idea is that you have the two (green) entites in the middle, one *Agent* and one *Client*. Both are logged in to a **PlatformIO** account. A client (in this case the Jenkins Server) can then send commands via the **PIO Clound** to a *Remote Agent*. The remote framework makes sure that the relevant projects are in sync and can excute the commands on the *Remote Agent* (in this case a build command on the build server). The *Client* will then get the results of this command as if it ran the command locally. 
+The image above is an overview of how **PlatformIO Remote** works. But the idea is that you have the two (green) entities in the middle, one *Agent* and one *Client*. Both are logged in to a **PlatformIO** account. A client (in this case the Jenkins Server) can then send commands via the **PIO Clound** to a *Remote Agent*. The remote framework makes sure that the relevant projects are in sync and can execute the commands on the *Remote Agent* (in this case a build command on the build server). The *Client* will then get the results of this command as if it ran the command locally. 
 
 This is the system which enables us to use PIO in a scalable and automated manner. 
 
@@ -140,20 +140,20 @@ This is the system which enables us to use PIO in a scalable and automated manne
 
 The setup here is exactly the same as for the Build Server. Only now we use a new account so we get a different token. We then setup a credential called `TEST_TOKEN`.
 
-This test server has a couple of boards plugged in availiable. It will run both unit test nativly on the server as well on the embedded devices.
+This test server has a couple of boards plugged in available. It will run both unit test natively on the server as well on the embedded devices.
 
 Which test are run where are defined inside the [`platformio.ini` file](platformio.ini).
 * [PlatformIO Project Configuration File docs](https://docs.platformio.org/page/projectconf.html)
 
-Inside here we can provide a selection of tests which each environment should ignore. For example the native test environment ignores all the tests in the `test_embedded` folder and the embeded environments ignore all the tests in the `test_native` folder. (The `megaatmega2560` environment ignores all tests as it is the environment we used to simulate deployment.)
+Inside here we can provide a selection of tests which each environment should ignore. For example the native test environment ignores all the tests in the `test_embedded` folder and the embedded environments ignore all the tests in the `test_native` folder. (The `megaatmega2560` environment ignores all tests as it is the environment we used to simulate deployment.)
 
 When running `pio remote [test|run]` you may have to specify the upload port if **PlatformIO** can not identify where it is. We did it here for `nanoatmega328` environment. 
 
-One note is that this can instead be passed as an argument to the command, that way multiple pio remote agents can be enabled even if they use different ports for their boards. So a script can be setup which first lists all availiable agents and devices, then specifies the specific agent and device port of the board of intrest.
+One note is that this can instead be passed as an argument to the command, that way multiple pio remote agents can be enabled even if they use different ports for their boards. So a script can be setup which first lists all available agents and devices, then specifies the specific agent and device port of the board of interest.
 
  #### Hardware Test Server
 
- This server needs to have **PlatformIO** installed as well as be accessable via SSH. In the same way we made the webhook path availiable for the Jenkins server we can make the ssh port availiable for the Hardware Test server using an applicationg like [ngrok](https://ngrok.com/).
+ This server needs to have **PlatformIO** installed as well as be accessible via SSH. In the same way we made the webhook path available for the Jenkins server we can make the ssh port availiable for the Hardware Test server using an applicationg like [ngrok](https://ngrok.com/).
  We will setup this server as a **Jenkins** SSH slave agent.
  The **Jenkins** documentation has a howto on setting this up.
  * [Distributed Builds - Have master launch agent via SSH](https://wiki.jenkins.io/display/JENKINS/Distributed+builds#Distributedbuilds-Havemasterlaunchagentviassh)
@@ -168,16 +168,16 @@ This section will take a step away from DevOps technologies and explain how the 
 
 This test rig provided a simple and cheap way for the Raspberry PI to check and interact with the final product. The final product had one analog voltage sensor input and three PWM digital output signals. 
 
-We created a simple circuit consiting of a low-pass filter and a op-amp to convert the Arduinos' 490 hz PWM signals Duty cycle to an analog voltage that the other Arduino's ADC could interpret. 
+We created a simple circuit consisting of a low-pass filter and a op-amp to convert the Arduinos' 490 hz PWM signals Duty cycle to an analog voltage that the other Arduino's ADC could interpret. 
 ![PWM Duty-Cycle to Voltage](images/pwm-dc-to-v.png)
 
 Using the Test Equipment Arduino's USB port we could send commands to the Device Under Test (DUT). And read of the output values the DUT produced. 
 
-With our abundance of Arduino boards this was the easiest way to interface the Raspberry PIs 3.3v world with the 5v world of the Arduinos. 
+With our abundance of Arduino boards this was the easiest way to interface the Raspberry PIs 3.3v world with the 5v world of the Arduino. 
 
-In a more serious test rig the Arduino board would be replaced by test equipment like oscilloscopes, source meters, power supplies and communicated with and controlled by using some standard like [LXI](https://en.wikipedia.org/wiki/LAN_eXtensions_for_Instrumentation) or [GPIB](https://en.wikipedia.org/wiki/IEEE-488).
+In a more serious test rig the Arduino board would be replaced by test equipment like oscilloscopes, source meters, power supplies and communicated with and controlled by using some standards like [LXI](https://en.wikipedia.org/wiki/LAN_eXtensions_for_Instrumentation) or [GPIB](https://en.wikipedia.org/wiki/IEEE-488).
 
-But with the availiability of cheap single-board microcontrollers able to run full linux distributions it is quite easy to create a quite intricate test rig setup that can be easily automated for use in a CI pipeline.
+But with the availability of cheap single-board microcontrollers able to run full linux distributions it is quite easy to create a quite intricate test rig setup that can be easily automated for use in a CI pipeline.
 
 ### Pipeline Overview
 
@@ -185,7 +185,7 @@ But with the availiability of cheap single-board microcontrollers able to run fu
 So this picture shows the overall pipeline we will be using.
 
 1. First Some Action trigger a GitHub webhook
-2. Jenkins Recives Webhook and starts the pipeline
+2. Jenkins Receives Webhook and starts the pipeline
     1. Build
          * Send `pio remote` command to the Build Server
     2. Software Test 
@@ -197,7 +197,7 @@ So this picture shows the overall pipeline we will be using.
     2. Deploy
          * If this was a merge / commit to the master branch
          * then deploy
-         * In the demo for simplicity we just used the slave agent to upload the new build to a specfic board. (Just as a proof of concept)
+         * In the demo for simplicity we just used the slave agent to upload the new build to a specific board. (Just as a proof of concept)
 
 #### Build Step
 
@@ -216,7 +216,7 @@ This is the build step of the pipeline. It simply runs this shell script:
 pio account logout || true
 PLATFORMIO_AUTH_TOKEN=${BUILD_TOKEN} pio remote run -r
 ```
-Because pio is stateful we must first logout to make sure that we are loged in using the right remote token.  (We use `or true` to make sure that even if the logout fails, which happens if we are not logged in, it does not stop the build).
+Because pio is stateful we must first logout to make sure that we are logged in using the right remote token.  (We use `or true` to make sure that even if the logout fails, which happens if we are not logged in, it does not stop the build).
 
 Note that one could also use the same token for both the Test and Build server and simply specify the *agents* by name when running the `pio remote` command.
 
@@ -243,9 +243,9 @@ pio account logout || true
 PLATFORMIO_AUTH_TOKEN=${TEST_TOKEN} pio remote test -r
 ```
 
-This works the same way as in the buils step. However here we first just run the native tests and only if this succeeds do we run the test on the boards. This is done as running the native tests are generally much cheaper than the embedded tests, so if we have a failure on the native test we can exit early.
+This works the same way as in the build step. However here we first just run the native tests and only if this succeeds do we run the test on the boards. This is done as running the native tests are generally much cheaper than the embedded tests, so if we have a failure on the native test we can exit early.
 
-Note that prior to this (or even prior to the build step) we could have run `pio check` to run analysis tools on the code like `clangtidy`. As of yet this cannot be done via the `pio remote` system so it would either have to be done on the Jenkins server or on some slave agent similarly to the Hardware test described below.
+Note that prior to this (or even prior to the build step) we could have run `pio check` to run analysis tools on the code like `clangtidy`. As yet this cannot be done via the `pio remote` system so it would either have to be done on the Jenkins server or on some slave agent similarly to the Hardware test described below.
 * [PlatformIO Check docs](https://docs.platformio.org/en/latest/plus/pio-check.html)
 
 #### Hardware Test Step
@@ -263,7 +263,7 @@ python test_scripts/check.py'''
 }
 ```
 
-First this stage is instructed to only run on the `PlatformIO-slave` agent which is the name we gave the Hardware Test server. It then runs this shell script nativily on that server:
+First this stage is instructed to only run on the `PlatformIO-slave` agent which is the name we gave the Hardware Test server. It then runs this shell script natively on that server:
 ```sh
 /home/jenkins/.local/bin/pio run -e uno -t upload --upload-port /dev/ttyUSB0
 sleep 5
@@ -273,7 +273,7 @@ First we use pio upload the application binary. Here we specify both the board e
 
 After the application is flashed we wait for five seconds to make sure that the Arduino and application has started. 
 
-When then excute a [test script](test_scripts/check.py) which communicates with the test rig and checks the correct behaviour of the output and input pins.
+When then execute a [test script](test_scripts/check.py) which communicates with the test rig and checks the correct behaviour of the output and input pins.
 
 #### Deploy Step
 
@@ -292,20 +292,20 @@ stage('Deploy') {
 }
 ```
 
-Here just as a proof of concet we added a deployment step. For this we simply had one more board plugged into the Hardware Test server and if the commit / merge was done to the master branch then we also deployed the application by uploading it to this board.
+Here just as a proof of concept we added a deployment step. For this we simply had one more board plugged into the Hardware Test server and if the commit / merge was done to the master branch then we also deployed the application by uploading it to this board.
 
-The Continious Deployment(CD) cycle for embedded devices is specific to the use case and final product. While many applications can enable some sort of CD and some would even benifit greatly from it, we acknowledge that there are also things in this field that makes CD less desirable or too complicated. There is however no excuse to not enable some sort of automation and CI in embedded development.
+The Continuous Deployment(CD) cycle for embedded devices is specific to the use case and final product. While many applications can enable some sort of CD and some would even benefit greatly from it, we acknowledge that there are also things in this field that makes CD less desirable or too complicated. There is however no excuse to not enable some sort of automation and CI in embedded development.
 
 ### Final Product
 
-The final product looks something like this. The device will light three different LEDs (one green, yellow and red) with different light intesities based on the value of the LDR (light dependent resisitor) sensor. This is just a toy product to show the proof of concept of a CI pipeline for embedded device development. 
+The final product looks something like this. The device will light three different LEDs (one green, yellow and red) with different light intensities based on the value of the LDR (light dependent resistor) sensor. This is just a toy product to show the proof of concept of a CI pipeline for embedded device development. 
 ![Final Product](images/product.png)
 
 ## What is next
 
 Here we will propose some ways that someone could continue to contribute to CI/CD for embedded device development.
 
-* Extend this demo to have a complete and proper Continious Deployment cycle
+* Extend this demo to have a complete and proper Continuous Deployment cycle
 * Create a similar demo using a different automation framework, like GitHub Actions
 * Extend this demo to include hardware simulations
 * Create a more systematic way of creating a CI/CD ecosystem for embedded device development
@@ -315,9 +315,9 @@ Here we will propose some ways that someone could continue to contribute to CI/C
 
 Distributed under the MIT License. See `LICENSE` for more information.
 
-All logos used are owned by **Jenkins** and **PlatformIO** respectivly.
+All logos used are owned by **Jenkins** and **PlatformIO** respectively.
 
-[pio-remote-architecture.png](images/pio-remote-architecture.png) is taken from PlatformIO docummentation and owned by them.
+[pio-remote-architecture.png](images/pio-remote-architecture.png) is taken from PlatformIO documentation and owned by them.
 
 ## Contact
 
@@ -328,7 +328,7 @@ Carl Jensen - calle.jensen@outlook.com
 Project Link: [https://github.com/Callet91/DEMO_Jenkins_PlatformIO](https://github.com/Callet91/DEMO_Jenkins_PlatformIO)
 
 
-## Acknowledgements
+## Acknowledgments
 
 * [DevOps course at KTH Royal Institute of Technology DD2482](https://github.com/KTH/devops-course) for which this demo was a submitted task.
      * Extra thanks Professors and TAs that made the course work even with distance learning due to COVID-19
@@ -337,5 +337,5 @@ Project Link: [https://github.com/Callet91/DEMO_Jenkins_PlatformIO](https://gith
         * [He Ye (TA)](https://www.kth.se/profile/heye)
         * [Long Zhang (TA)](http://gluckzhang.com/)
         * [César Soto (TA)](https://cesarsotovalero.github.io/)
-* The greate docummentation and tools provided by both Jenkins and PlatformIO
+* The great documentation and tools provided by both Jenkins and PlatformIO
 
