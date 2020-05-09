@@ -10,7 +10,7 @@
   <h3 align="center">Demo: Using Jenkins and PlatformIO</h3>
 
   <p align="center">
-    A simple demo showing how to setup a continious integration pipeline for development on embeded devices, specificly single-board microcontrollers, e.g. the Arduino family. 
+    A simple demo showing how to setup a continuous integration pipeline for development on embedded devices, specifically single-board microcontrollers, e.g. the Arduino family.
     <br />
     <a href="https://www.youtube.com/watch?v=7JVxvhcz8Go"><strong>View demo in action [YouTube] »</strong></a>
     <br />
