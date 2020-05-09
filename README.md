@@ -92,6 +92,7 @@ Note for example if you run **Jenkins** using their lts docker image it will run
 Next you will add the blueocean plugin. There is a compleate docker image availiable with Jenkins+Blueocean already setup. Just be aware of the caveat above.
 * [Blue Ocean Setup](https://www.jenkins.io/doc/book/blueocean/getting-started/)
 * [Creating a Pipeline](https://www.jenkins.io/doc/book/blueocean/creating-pipelines/)
+
 When creating a pipeline you will directly connect it to your GitHub repo.
 
 To be able to recive webhooks from GitHub you will have to add `http://ipAddress:port/github-webhook/` to your GitHub repo. Where `ipAddress:port` is the address where your **Jenkins** server is accessable from. A simple way to make a `localhost` port available to the internet is using a software like [ngrok](https://ngrok.com/)
