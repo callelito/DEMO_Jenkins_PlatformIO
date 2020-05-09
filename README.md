@@ -73,8 +73,9 @@ In this section we will go over how this demo was made. It will not explain ever
 ### Setting Up the Tools
 
 First we will provide resources so that you can setup all the required servers. In this demo pipeline we require four servers. All these servers could be run on the same computer using some container software like Docker. 
-Server setup in our demo video:
-* Jenkins server ran a Raspeberry Pi running Raspbian
+
+The server setup in our demo video:
+* Jenkins server ran on a Raspeberry Pi running Raspbian
 * Build server ran in a Docker container on a Ubuntu laptop
 * Test server ran on a MacOS laptop
 * Hardware test server / Jenkins ssh slave agent ran on a Raspeberry Pi running Raspbian
