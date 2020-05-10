@@ -43,13 +43,13 @@
 
 ## About The Demo
 
-This demo aims to show how tools like **Jenkins** and **PlatformIO** can be easily used to setup a working continues integration pipeline, enabling both automatic unit testing and hardware testing. 
+This demo aims to show how tools like **Jenkins** and **PlatformIO** can be easily used to setup a working continuous integration pipeline, enabling both automatic unit testing and hardware testing. 
 
-Specifically this demo shows how to setup a **Jenkins** automation server, and then using the Blueocean plugin to setup a pipeline for automated testing using **PlatformIO**
+Specifically, this demo shows how to setup a **Jenkins** automation server and then, using the Blueocean plugin, to setup a pipeline for automated testing using **PlatformIO**
 
 ### Motivation
 
-When developing for embedded systems, tests that relate to the actual hardware are often done manually on a dedicated test rig. This is time-consuming and often creates a bottleneck in the workflow since only small teams can work on the test rig, one at a time. Automation of physical tests could hopefully reduce the time spent in the lab and speedup verification of the code under test.
+When developing for embedded systems, tests that relate to the actual hardware are often done manually on a dedicated test rig. This is time-consuming and often creates a bottleneck in the workflow since only small teams can work on the test rig, one at a time. Automation of physical tests could hopefully reduce the time spent in the lab and speed up verification of the code under test.
 
 Also this greate article: [Continuous Delivery, Embedded Systems, and Simulation](https://blogs.windriver.com/wind_river_blog/2018/03/continuous-delivery-embedded-systems-and-simulation/) by Jakob Engblom
 >Mike Long’s most important message is really that software development methods and tools matter, and that being “embedded” is no excuse not to work in a modern and efficient way.  
@@ -109,7 +109,7 @@ Caveat when using `pio remote` every agent and client must use the same version 
 
  #### Build Server
 
- The build server only needs to install **PlatformIO**. The same procedure as for the **Jenkins** server apply here. Only with the extra requirement that this server must be able to build the project using the required toolchain. For **AVR** projects **Windows**, **MacOS**, and **Ubuntu**/**Debian**-like OS will work (including **ARM** based once like **Rasbian**). Because this server will run a **PlatformIO Remote Agent** you must create an account and login to **PIO**.
+ The build server only needs to install **PlatformIO**. The same procedure as for the **Jenkins** server apply here. Only with the extra requirement that this server must be able to build the project using the required toolchain. For **AVR** projects **Windows**, **MacOS**, and **Ubuntu**/**Debian**-like OS will work (including **ARM** based ones like **Rasbian**). Because this server will run a **PlatformIO Remote Agent** you must create an account and login to **PIO**.
  You can then run this script to generate a token which can be used by the **Jenkins Server** to send commands via `pio remote`.
  ```sh
 pio account login
@@ -142,7 +142,7 @@ The setup here is exactly the same as for the Build Server. Only now we use a ne
 
 This test server has a couple of boards plugged in available. It will run both unit test natively on the server as well on the embedded devices.
 
-Which test are run where are defined inside the [`platformio.ini` file](platformio.ini).
+Which test is run is defined inside the [`platformio.ini` file](platformio.ini).
 * [PlatformIO Project Configuration File docs](https://docs.platformio.org/page/projectconf.html)
 
 Inside here we can provide a selection of tests which each environment should ignore. For example the native test environment ignores all the tests in the `test_embedded` folder and the embedded environments ignore all the tests in the `test_native` folder. (The `megaatmega2560` environment ignores all tests as it is the environment we used to simulate deployment.)
@@ -153,7 +153,7 @@ One note is that this can instead be passed as an argument to the command, that 
 
  #### Hardware Test Server
 
- This server needs to have **PlatformIO** installed as well as be accessible via SSH. In the same way we made the webhook path available for the Jenkins server we can make the ssh port availiable for the Hardware Test server using an applicationg like [ngrok](https://ngrok.com/).
+ This server needs to have **PlatformIO** installed as well as be accessible via SSH. In the same way we made the webhook path available for the Jenkins server, we can make the ssh port availiable for the Hardware Test server using an applicationg like [ngrok](https://ngrok.com/).
  We will setup this server as a **Jenkins** SSH slave agent.
  The **Jenkins** documentation has a howto on setting this up.
  * [Distributed Builds - Have master launch agent via SSH](https://wiki.jenkins.io/display/JENKINS/Distributed+builds#Distributedbuilds-Havemasterlaunchagentviassh)
@@ -273,7 +273,7 @@ First we use pio upload the application binary. Here we specify both the board e
 
 After the application is flashed we wait for five seconds to make sure that the Arduino and application has started. 
 
-When then execute a [test script](test_scripts/check.py) which communicates with the test rig and checks the correct behaviour of the output and input pins.
+We then execute a [test script](test_scripts/check.py) which communicates with the test rig and checks the correct behaviour of the output and input pins.
 
 #### Deploy Step
 
@@ -292,7 +292,7 @@ stage('Deploy') {
 }
 ```
 
-Here just as a proof of concept we added a deployment step. For this we simply had one more board plugged into the Hardware Test server and if the commit / merge was done to the master branch then we also deployed the application by uploading it to this board.
+Here, just as a proof of concept, we added a deployment step. For this we simply had one more board plugged into the Hardware Test server and if the commit / merge was done to the master branch then we also deployed the application by uploading it to this board.
 
 The Continuous Deployment(CD) cycle for embedded devices is specific to the use case and final product. While many applications can enable some sort of CD and some would even benefit greatly from it, we acknowledge that there are also things in this field that makes CD less desirable or too complicated. There is however no excuse to not enable some sort of automation and CI in embedded development.
 
