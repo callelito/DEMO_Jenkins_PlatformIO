@@ -45,7 +45,7 @@
 
 This demo aims to show how tools like **Jenkins** and **PlatformIO** can be easily used to setup a working continuous integration pipeline, enabling both automatic unit testing and hardware testing. 
 
-Specifically, this demo shows how to setup a **Jenkins** automation server and then, using the Blueocean plugin, to setup a pipeline for automated testing using **PlatformIO**
+Specifically, this demo shows how to setup a **Jenkins** automation server and then, using the Blueocean plugin, to setup a pipeline for automated testing with **PlatformIO**
 
 ### Motivation
 
@@ -80,7 +80,7 @@ First we will provide resources so that you can setup all the required servers. 
 
 The server setup in the demo video is as follows:
 * Jenkins server ran on a Raspberry Pi running Raspbian
-* Build server ran in a Docker container on a Ubuntu laptop
+* Build server ran in a Docker container on a Ubuntu desktop computer
 * Test server ran on a MacOS laptop
 * Hardware test server / Jenkins SSH slave agent ran on a (different) Raspberry Pi running Raspbian
 
@@ -90,7 +90,7 @@ There are many ways to setup a **Jenkins** server. It can run on most devices th
 * [Download Jenkins](https://www.jenkins.io/download/)
 * [Installing Jenkins](https://www.jenkins.io/doc/book/installing/)
 
-One caveat is that this server must also run **PlatformIO**. **PlatformIO** is python based and **PlatformIO Remote**  which is the only thing this server will use does not require the ability to compile and run a microcontroller compile suite, e.g. `avrdude`, `avr-gcc` etc. 
+One caveat is that this server must also run **PlatformIO**. **PlatformIO** is python based and **PlatformIO Remote**,  which is the only thing this server will use, does not require the ability to compile and run a microcontroller compile suite, e.g. `avrdude`, `avr-gcc` etc. 
 Note for example if you run **Jenkins** using their lts docker image it will run on alpine linux. At the current time **PlatformIO** cannot download the correct toolchain for atleast the Atmel/Microship chipsets. 
 
 Next you will add the blueocean plugin. There is a complete docker image available with Jenkins+Blueocean already setup. Just be aware of the caveat above.
@@ -145,7 +145,7 @@ This test server has a couple of boards plugged in available. It will run both u
 Which test is run is defined inside the [`platformio.ini` file](platformio.ini).
 * [PlatformIO Project Configuration File docs](https://docs.platformio.org/page/projectconf.html)
 
-Inside here we can provide a selection of tests which each environment should ignore. For example the native test environment ignores all the tests in the `test_embedded` folder and the embedded environments ignore all the tests in the `test_native` folder. (The `megaatmega2560` environment ignores all tests as it is the environment we used to simulate deployment.)
+Inside here we can provide a selection of tests which each environment should ignore. For example, the native test environment ignores all the tests in the `test_embedded` folder and the embedded environments ignore all the tests in the `test_native` folder. (The `megaatmega2560` environment ignores all tests as it is the environment we used to simulate deployment.)
 
 When running `pio remote [test|run]` you may have to specify the upload port if **PlatformIO** can not identify where it is. We did it here for `nanoatmega328` environment. 
 
@@ -182,7 +182,7 @@ But with the availability of cheap single-board microcontrollers able to run ful
 ### Pipeline Overview
 
 ![Pipeline Overview](images/pipeline-overview.png)
-So this picture shows the overall pipeline we will be using.
+This picture shows the overall pipeline we will be using.
 
 1. First Some Action trigger a GitHub webhook
 2. Jenkins Receives Webhook and starts the pipeline
@@ -243,7 +243,7 @@ pio account logout || true
 PLATFORMIO_AUTH_TOKEN=${TEST_TOKEN} pio remote test -r
 ```
 
-This works the same way as in the build step. However here we first just run the native tests and only if this succeeds do we run the test on the boards. This is done as running the native tests are generally much cheaper than the embedded tests, so if we have a failure on the native test we can exit early.
+This works the same way as in the build step. However, here we first just run the native tests and only if this succeeds do we run the test on the boards. This is done as running the native tests are generally much cheaper than the embedded tests, so if we have a failure on the native test we can exit early.
 
 Note that prior to this (or even prior to the build step) we could have run `pio check` to run analysis tools on the code like `clangtidy`. As yet this cannot be done via the `pio remote` system so it would either have to be done on the Jenkins server or on some slave agent similarly to the Hardware test described below.
 * [PlatformIO Check docs](https://docs.platformio.org/en/latest/plus/pio-check.html)
@@ -294,7 +294,7 @@ stage('Deploy') {
 
 Here, just as a proof of concept, we added a deployment step. For this we simply had one more board plugged into the Hardware Test server and if the commit / merge was done to the master branch then we also deployed the application by uploading it to this board.
 
-The Continuous Deployment(CD) cycle for embedded devices is specific to the use case and final product. While many applications can enable some sort of CD and some would even benefit greatly from it, we acknowledge that there are also things in this field that makes CD less desirable or too complicated. There is however no excuse to not enable some sort of automation and CI in embedded development.
+The Continuous Deployment (CD) cycle for embedded devices is specific to the use case and final product. While many applications can enable some sort of CD and some would even benefit greatly from it, we acknowledge that there are also things in this field that makes CD less desirable or too complicated. There is however no excuse to not enable some sort of automation and CI in embedded development.
 
 ### Final Product
 
